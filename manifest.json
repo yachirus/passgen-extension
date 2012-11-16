@@ -3,13 +3,13 @@
   "name": "passgen-extension",
   "description": "Password generator extension",
   "version": "0.0.0.1",
-  "icons": {"48": "img/passgen.png"},
+  "icons": {"48": "passgen.png"},
   "background": {
-    "scripts": ["js/background.js"]
+    "scripts": ["background.js"]
     },
   "browser_action": {
-    "default_icon": "img/passgen.png",
+    "default_icon": "passgen.png",
     "default_title": "Password generator"
   },
-  "options_page": "options.html",
+  "options_page": "options.html"
 }
