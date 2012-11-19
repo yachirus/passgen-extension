@@ -1,4 +1,3 @@
-entitylist = [];
 function dump(password){
         var json = JSON.stringify(entitylist);
 }
@@ -9,7 +8,7 @@ function load(password){
 }
 
 var passgen = (function(passgen){
-    this.Entity = function(){
+    passgen.Entity = function(){
         this.name = '';
         this.id = '';
         this.password = '';
@@ -18,4 +17,5 @@ var passgen = (function(passgen){
             this.password = 'abc';
         }
     }
+    return passgen;
 })({})
