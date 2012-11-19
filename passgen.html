@@ -7,7 +7,44 @@
         <title>Password generator extension</title>
     </head>
     <body>
+        <div class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Create entity</h3>
+            </div>
+            <div class="modal-body">
+                <p>hogehoge</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn">Cacel</a>
+                <a href="#" class="btn btn-primary">Generate</a>
+            </div>
+        </div>
         <div class="container">
+            <div class="row-fluid">
+                <div class="span4">
+                    <ul class="nav nav-list">
+                        <li class="active"><a><i class="icon-shopping-cart icon-white"></i>Shopping</a></li>
+                        <li><a><i class="icon-globe"></i>Internet</a></li>
+                        <li><a>Network</a></li>
+                    </ul>
+                </div>
+                <div class="span8">
+                    <table class="table">
+                        <thead>
+                            <tr><th>Name</th>
+                                <th>ID</th>
+                                <th>Password</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Amazon</td>
+                                <td>id@example.com</td>
+                                <td><input type="password" value="password"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </body>
 </html>
