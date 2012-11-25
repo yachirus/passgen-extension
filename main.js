@@ -8,9 +8,11 @@ function updateEntity(){
         var password = $(document.createElement('td'));
         var passwordInput = $(document.createElement('input'));
         passwordInput.attr({type: 'password'});
+        passwordInput.attr({style: 'margin-bottom: 0px;'});
         passwordInput.val(entitylist[i].password);
         password.append(passwordInput);
-        password.append('<a class="btn btn-mini"><i class="icon-eye-open"></i></a>');
+        password.append('<a class="btn btn-mini" style="margin-left: 4px;"><i class="icon-eye-open"></i></a>');
+        password.append('<a class="btn btn-mini" style="margin-left: 4px;"><i class="icon-list-alt"></i></a>');
         
         tr.append(name).append(id).append(password);
         $('#entities tbody').append(tr);
