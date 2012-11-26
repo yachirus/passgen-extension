@@ -32,19 +32,34 @@
                             <div class="controls">
                                 <input type="password"><button class="btn btn-mini" style="margin-left: 4px;"><i class="icon-eye-open"></i></button>
                             </div>
+                            <div class="controls"><a id="toggle-password-rule" href="#">Show generation rules</a></div>
                         </div>
-                        <div class="control-group">
+                        <div class="control-group generation-rule" style="display: none;">
+                            <label class="control-label">Password length</label>
                             <div class="controls">
-                                <label>Password length</label>
-                                <input type="number" min="0">
+                                <input type="number" min="0" value="16">
+                            </div>
+                        </div>
+                        <div class="control-group generation-rule" style="display: none;">
+                            <label class="control-label">Acceptable characters</label>
+                            <div class="controls">
                                 <label class="checkbox inline"><input type="checkbox">Upper case</label>
                                 <label class="checkbox inline"><input type="checkbox">Lower case</label>
-                                <label class="checkbox inline"><input type="checkbox">Number</label>
+                                <label class="checkbox inline"><input type="checkbox">Digits</label>
+                            </div>
+                            <div class="controls">
+                                <label class="checkbox inline"><input type="checkbox">Special characters</label>
+                            </div>
+                        </div>
+                        <div class="control-group generation-rule" style="display: none;">
+                            <label class="control-label">Special characters</label>
+                            <div class="controls">
+                                <input type="text" value="!&quot;#$%&'()*+,-./:;<=>?@[\]^_`{|}~" disabled>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">Note</label>
-                            <div class="controls"><textarea></textarea></div>
+                            <div class="controls"><textarea rows="4"></textarea></div>
                         </div>
                     </fieldset>
                 </form>

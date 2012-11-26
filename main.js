@@ -1,3 +1,13 @@
+function togglePasswordRule(){
+    if($('div.generation-rule').is(':hidden')){
+        $('#toggle-password-rule').text('Hide generation rule');
+        $('div.generation-rule').slideDown();
+    }else{
+        $('#toggle-password-rule').text('Show generation rule');
+        $('div.generation-rule').slideUp();
+    }
+}
+
 function updateEntity(){
     for(var i = 0;i < entitylist.length;i++){
         var tr = $(document.createElement('tr'));
@@ -29,5 +39,6 @@ $(document).ready(function(){
     entitylist[1].id = 'id2@example.com'
     entitylist[1].password = 'password';
     
+    $('#toggle-password-rule').on('click', togglePasswordRule);
     updateEntity();
 });
