@@ -1,11 +1,15 @@
-function togglePasswordRule(){
+function showPasswordRule(){
     if($('div.generation-rule').is(':hidden')){
-        $('#toggle-password-rule').text('Hide generation rule');
+        $('#show-password-rule').text('Hide generation rule');
         $('div.generation-rule').slideDown();
     }else{
-        $('#toggle-password-rule').text('Show generation rule');
+        $('#show-password-rule').text('Show generation rule');
         $('div.generation-rule').slideUp();
     }
+}
+
+function changeGenerationRule(e){
+    console.log(e);
 }
 
 function updateEntity(){
@@ -21,8 +25,8 @@ function updateEntity(){
         passwordInput.attr({style: 'margin-bottom: 0px;'});
         passwordInput.val(entitylist[i].password);
         password.append(passwordInput);
-        password.append('<a class="btn btn-mini" style="margin-left: 4px;"><i class="icon-eye-open"></i></a>');
-        password.append('<a class="btn btn-mini" style="margin-left: 4px;"><i class="icon-list-alt"></i></a>');
+        password.append(' <a class="btn btn-mini"><i class="icon-eye-open"></i></a>');
+        password.append(' <a class="btn btn-mini"><i class="icon-list-alt"></i></a>');
         
         tr.append(name).append(id).append(password);
         $('#entities tbody').append(tr);
@@ -39,6 +43,12 @@ $(document).ready(function(){
     entitylist[1].id = 'id2@example.com'
     entitylist[1].password = 'password';
     
-    $('#toggle-password-rule').on('click', togglePasswordRule);
     updateEntity();
+    
+    $('#show-password-rule').on('click', showPasswordRule);
+    $('#entity-dialog div.generation-rule input').on('change', changeGenerationRule);
+    $('#entity-dialog').on('show', function(){
+        $(this).find('div.modal-header h3').text('Add entity');
+        $('div.generation-rule').hide();
+    });
 });

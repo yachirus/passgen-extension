@@ -5,16 +5,17 @@
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-responsive.min.css">
         <title>Password generator extension</title>
+        <script type="text/javascript" src="sjcl/sjcl.js"></script>
         <script type="text/javascript" src="jquery/jquery-1.8.3.min.js"></script>
         <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="passgen.js"></script>
         <script type="text/javascript" src="main.js"></script>
     </head>
     <body>
-        <div id="add-dialog" class="modal hide fade">
+        <div id="entity-dialog" class="modal hide fade">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Add entity</h3>
+                <h3>Title</h3>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
@@ -30,17 +31,20 @@
                         <div class="control-group">
                             <label class="control-label">Password</label>
                             <div class="controls">
-                                <input type="password"><button class="btn btn-mini" style="margin-left: 4px;"><i class="icon-eye-open"></i></button>
+                                <input type="password">
+                                <a class="btn btn-mini"><i class="icon-eye-open"></i></a>
                             </div>
-                            <div class="controls"><a id="toggle-password-rule" href="#">Show generation rules</a></div>
+                            <div class="controls">
+                                <a href="#">Show generation rules</a>
+                            </div>
                         </div>
-                        <div class="control-group generation-rule" style="display: none;">
+                        <div class="control-group generation-rule">
                             <label class="control-label">Password length</label>
                             <div class="controls">
                                 <input type="number" min="0" value="16">
                             </div>
                         </div>
-                        <div class="control-group generation-rule" style="display: none;">
+                        <div class="control-group generation-rule">
                             <label class="control-label">Acceptable characters</label>
                             <div class="controls">
                                 <label class="checkbox inline"><input type="checkbox">Upper case</label>
@@ -51,7 +55,7 @@
                                 <label class="checkbox inline"><input type="checkbox">Special characters</label>
                             </div>
                         </div>
-                        <div class="control-group generation-rule" style="display: none;">
+                        <div class="control-group generation-rule">
                             <label class="control-label">Special characters</label>
                             <div class="controls">
                                 <input type="text" value="!&quot;#$%&'()*+,-./:;<=>?@[\]^_`{|}~" disabled>
@@ -66,7 +70,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn" data-dismiss="modal">Cacel</a>
-                <a href="#" class="btn btn-primary">Generate</a>
+                <a href="#" class="btn btn-primary">Add</a>
             </div>
         </div>
         <div class="container">
@@ -80,7 +84,7 @@
                 </div>
                 <div class="span8">
                     <h4>Password List</h4>
-                    <a class="btn pull-right" href="#add-dialog" data-toggle="modal">Add...</a>
+                    <a class="btn pull-right" href="#entity-dialog" data-toggle="modal">Add...</a>
                     <table id="entities" class="table table condensed">
                         <thead><tr><th>Name</th><th>ID</th><th>Password</th></tr></thead>
                         <tbody></tbody>
