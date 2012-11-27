@@ -22,34 +22,34 @@
                     <fieldset>
                         <div class="control-group">
                             <label class="control-label">Name</label>
-                            <div class="controls"><input type="text"></div>
+                            <div class="controls"><input name="name" type="text"></div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">ID</label>
-                            <div class="controls"><input type="text"></div>
+                            <div class="controls"><input name="id" type="text"></div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">Password</label>
                             <div class="controls">
-                                <input type="password">
-                                <a class="btn btn-mini"><i class="icon-eye-open"></i></a>
+                                <input name="password" type="password">
+                                <a id="entity-dialog-show-password" class="btn btn-mini"><i class="icon-eye-open"></i></a>
                             </div>
                             <div class="controls">
-                                <a href="#">Show generation rules</a>
+                                <a id="entity-dialog-show-rule">Show generation rules</a>
                             </div>
                         </div>
                         <div class="control-group generation-rule">
                             <label class="control-label">Password length</label>
                             <div class="controls">
-                                <input type="number" min="0" value="16">
+                                <input name="password-length" type="number" min="0" value="16">
                             </div>
                         </div>
                         <div class="control-group generation-rule">
                             <label class="control-label">Acceptable characters</label>
                             <div class="controls">
-                                <label class="checkbox inline"><input type="checkbox">Upper case</label>
-                                <label class="checkbox inline"><input type="checkbox">Lower case</label>
-                                <label class="checkbox inline"><input type="checkbox">Digits</label>
+                                <label class="checkbox inline"><input name="use-upper-case" type="checkbox">Upper case</label>
+                                <label class="checkbox inline"><input name="use-lower-case" type="checkbox">Lower case</label>
+                                <label class="checkbox inline"><input name="use-digit" type="checkbox">Digit</label>
                             </div>
                             <div class="controls">
                                 <label class="checkbox inline"><input type="checkbox">Special characters</label>
@@ -73,7 +73,7 @@
                 <a href="#" class="btn btn-primary">Add</a>
             </div>
         </div>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row-fluid">
                 <div class="span4" style="padding-top: 10px;">
                     <ul class="nav nav-list">

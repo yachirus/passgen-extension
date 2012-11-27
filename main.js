@@ -1,10 +1,10 @@
 function showPasswordRule(){
     if($('div.generation-rule').is(':hidden')){
-        $('#show-password-rule').text('Hide generation rule');
-        $('div.generation-rule').slideDown();
+        $('#entity-dialog-show-rule').text('Hide generation rule');
+        $('#entity-dialog div.generation-rule').slideDown();
     }else{
-        $('#show-password-rule').text('Show generation rule');
-        $('div.generation-rule').slideUp();
+        $('#entity-dialog-show-rule').text('Show generation rule');
+        $('#entity-dialog div.generation-rule').slideUp();
     }
 }
 
@@ -20,6 +20,7 @@ function updateEntity(){
         var id = $(document.createElement('td'));
         id.text(entitylist[i].id);
         var password = $(document.createElement('td'));
+        password.attr({style: 'white-space: nowrap;'});
         var passwordInput = $(document.createElement('input'));
         passwordInput.attr({type: 'password'});
         passwordInput.attr({style: 'margin-bottom: 0px;'});
@@ -45,10 +46,10 @@ $(document).ready(function(){
     
     updateEntity();
     
-    $('#show-password-rule').on('click', showPasswordRule);
-    $('#entity-dialog div.generation-rule input').on('change', changeGenerationRule);
+    $('#entity-dialog-show-rule').on('click', showPasswordRule);
+    $('#entity-dialog input').on('change', changeGenerationRule);
     $('#entity-dialog').on('show', function(){
-        $(this).find('div.modal-header h3').text('Add entity');
-        $('div.generation-rule').hide();
+        $('#entity-dialog div.modal-header h3').text('Add entity');
+        $('#entity-dialog div.generation-rule').hide();
     });
 });
