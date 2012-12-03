@@ -12,36 +12,18 @@
         <script type="text/javascript" src="main.js"></script>
     </head>
     <body>
-        <div id="entity-dialog" class="modal hide fade">
+        <div id="generation-rule-dialog" class="modal hide fade">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Title</h3>
+                <h3>Generation rule</h3>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
                     <fieldset>
-                        <div class="control-group">
-                            <label class="control-label">Name</label>
-                            <div class="controls"><input name="name" type="text"></div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">ID</label>
-                            <div class="controls"><input name="id" type="text"></div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Password</label>
-                            <div class="controls">
-                                <input name="password" type="password">
-                                <a id="entity-dialog-show-password" class="btn btn-mini"><i class="icon-eye-open"></i></a>
-                            </div>
-                            <div class="controls">
-                                <a id="entity-dialog-show-rule">Show generation rules</a>
-                            </div>
-                        </div>
                         <div class="control-group generation-rule">
                             <label class="control-label">Password length</label>
                             <div class="controls">
-                                <input name="password-length" type="number" min="0" value="16">
+                                <input name="password-length" type="number" min="8" max="128" value="16">
                             </div>
                         </div>
                         <div class="control-group generation-rule">
@@ -61,34 +43,30 @@
                                 <input type="text" value="!&quot;#$%&'()*+,-./:;<=>?@[\]^_`{|}~" disabled>
                             </div>
                         </div>
-                        <div class="control-group">
-                            <label class="control-label">Note</label>
-                            <div class="controls"><textarea rows="4"></textarea></div>
-                        </div>
                     </fieldset>
                 </form>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn" data-dismiss="modal">Cacel</a>
-                <a href="#" class="btn btn-primary">Add</a>
+                <a href="#" class="btn btn-primary">Change generation rule</a>
             </div>
         </div>
         <div class="container-fluid">
             <div class="row-fluid">
-                <div class="span4" style="padding-top: 10px;">
+                <div class="span2" style="padding-top: 10px;">
                     <ul class="nav nav-list">
                         <li class="active"><a><i class="icon-shopping-cart icon-white"></i>Shopping</a></li>
                         <li><a><i class="icon-globe"></i>Internet</a></li>
                         <li><a>Network</a></li>
                     </ul>
                 </div>
-                <div class="span8">
+                <div class="span10">
                     <h4>Password List</h4>
-                    <a class="btn pull-right" href="#entity-dialog" data-toggle="modal">Add...</a>
                     <table id="entities" class="table table condensed">
                         <thead><tr><th>Name</th><th>ID</th><th>Password</th></tr></thead>
                         <tbody></tbody>
                     </table>
+                    <a id="add-entity" class="btn">Add...</a>
                 </div>
             </div>
         </div>

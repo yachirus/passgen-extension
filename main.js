@@ -1,11 +1,18 @@
-function showPasswordRule(){
-    if($('div.generation-rule').is(':hidden')){
-        $('#entity-dialog-show-rule').text('Hide generation rule');
-        $('#entity-dialog div.generation-rule').slideDown();
-    }else{
-        $('#entity-dialog-show-rule').text('Show generation rule');
-        $('#entity-dialog div.generation-rule').slideUp();
-    }
+function acceptEntity(){
+    var entity = new passgen.Entity();
+    entity.name = $('#newentity-name').val();
+    entity.id = $('#newentity-id').val();
+    entity.password = $('#newentity-password').val();
+    entitylist.push(entity);
+    
+    $('#newentity').remove();
+    $('#add-entity').show();
+    updateEntity();
+}
+
+function cancelEntity(){
+    $('#newentity').remove();
+    $('#add-entity').show();
 }
 
 function changeGenerationRule(e){
@@ -13,23 +20,32 @@ function changeGenerationRule(e){
 }
 
 function updateEntity(){
+    $('#entities tbody *').remove();
     for(var i = 0;i < entitylist.length;i++){
         var tr = $(document.createElement('tr'));
-        var name = $(document.createElement('td'));
-        name.text(entitylist[i].name);
-        var id = $(document.createElement('td'));
-        id.text(entitylist[i].id);
-        var password = $(document.createElement('td'));
-        password.attr({style: 'white-space: nowrap;'});
-        var passwordInput = $(document.createElement('input'));
-        passwordInput.attr({type: 'password'});
-        passwordInput.attr({style: 'margin-bottom: 0px;'});
-        passwordInput.val(entitylist[i].password);
-        password.append(passwordInput);
-        password.append(' <a class="btn btn-mini"><i class="icon-eye-open"></i></a>');
-        password.append(' <a class="btn btn-mini"><i class="icon-list-alt"></i></a>');
+        var td = $(document.createElement('td'));
+        td.text(entitylist[i].name);
+        tr.append(td);
         
-        tr.append(name).append(id).append(password);
+        td = $(document.createElement('td'));
+        td.text(entitylist[i].id);
+        tr.append(td);
+        
+        td = $(document.createElement('td'));
+        var str = '';
+        for(var j= 0;j < entitylist[i].password.length;j++){
+            str += '*';
+        }
+        td.text(str);
+        tr.append(td);
+        
+        td = $(document.createElement('td'));
+        td.attr({style: 'white-space: nowrap;'});
+        td.append(' <a class="btn" title="show-password"><i class="icon-eye-open"></i></a>');
+        td.append(' <a class="btn" title="copy password to clipboard"><i class="icon-list-alt"></i></a>');
+        td.append(' <a class="btn" title="edit-entity"><i class="icon-pencil"></i></a>');
+        tr.append(td);
+        
         $('#entities tbody').append(tr);
     }
 }
@@ -46,10 +62,27 @@ $(document).ready(function(){
     
     updateEntity();
     
-    $('#entity-dialog-show-rule').on('click', showPasswordRule);
-    $('#entity-dialog input').on('change', changeGenerationRule);
-    $('#entity-dialog').on('show', function(){
-        $('#entity-dialog div.modal-header h3').text('Add entity');
-        $('#entity-dialog div.generation-rule').hide();
+    $('#add-entity').on('click', function(){
+        $('#add-entity').hide();
+        var newEntity = $(document.createElement('tr'));
+        newEntity.attr({id: 'newentity'});
+        newEntity.load('addentityform.html', function(){
+            newEntity.find('#newentity-password').val(passgen.generateNewPassword());
+            newEntity.find('#newentity-regenerate').on('click', function(){
+                $('#newentity-password').val(passgen.generateNewPassword());
+            });
+            newEntity.find('#newentity-show-password').on('click', function(){
+                var password = $('#newentity-password').val();
+                if($('#newentity-password').attr('type') == 'text'){
+                    $('#newentity-password').replaceWith('<input id="newentity-password" class="span8" type="password">');
+                }else{
+                    $('#newentity-password').replaceWith('<input id="newentity-password" class="span8" type="text">');
+                }
+                $('#newentity-password').val(password);
+            });
+            newEntity.find('#newentity-accept').on('click', acceptEntity);
+            newEntity.find('#newentity-cancel').on('click', cancelEntity);
+            $('#entities tbody').append(newEntity); 
+        });
     });
 });
