@@ -15,10 +15,6 @@ function cancelEntity(){
     $('#add-entity').show();
 }
 
-function changeGenerationRule(e){
-    console.log(e);
-}
-
 function updateEntity(){
     $('#entities tbody *').remove();
     for(var i = 0;i < entitylist.length;i++){
@@ -62,6 +58,18 @@ function updateEntity(){
         var copyToClipboard = $(' <a class="btn" title="copy password to clipboard"></a>');
         copyToClipboard.append('<i class="icon-list-alt"></i>');
         copyToClipboard.attr({'data-index': i});
+        copyToClipboard.on('click', function(){
+            var index = parseInt($(this).attr('data-index'));
+            var copyDiv = document.createElement('div');
+            copyDiv.contentEditable = true;
+            document.body.appendChild(copyDiv);
+            copyDiv.innerHTML = entitylist[index].password;
+            copyDiv.unselectable = "off";
+            copyDiv.focus();
+            document.execCommand('SelectAll');
+            document.execCommand("Copy", false, null);
+            document.body.removeChild(copyDiv);
+        });
         
         var editEntity = $(' <a class="btn" title="edit-entity"></a>')
         editEntity.append('<i class="icon-pencil"></i>');

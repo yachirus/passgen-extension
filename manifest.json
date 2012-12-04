@@ -11,5 +11,6 @@
     "default_icon": "passgen.png",
     "default_title": "Password generator"
   },
+  "permissions": ["clipboardWrite"],
   "options_page": "options.html"
 }
