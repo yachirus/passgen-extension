@@ -94,6 +94,9 @@ $(document).ready(function(){
     entitylist[1].account = 'id2@example.com'
     entitylist[1].password = 'password';
     
+    var modal = $('#master-password-dialog').on('submit', function(){return false;});
+    modal.modal('show');
+    
     updateEntity();
     
     $('#add-entity').on('click', function(){

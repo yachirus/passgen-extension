@@ -57,7 +57,7 @@ var passgen = (function(passgen){
         if(passgen.generationRule.passwordLength <= result.length){
             return result;
         }else{
-            return generateNewPassword(result);
+            return passgen.generateNewPassword(result);
         }
     }
     

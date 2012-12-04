@@ -12,6 +12,22 @@
         <script type="text/javascript" src="main.js"></script>
     </head>
     <body>
+        <div id="master-password-dialog" class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Master password</h3>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <label class="control-label">Input master passsword</label>
+                    <input name="master-password" type="password">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Cacel</a>
+                <a href="#" class="btn btn-primary">OK</a>
+            </div>
+        </div>
         <div id="generation-rule-dialog" class="modal hide fade">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -19,31 +35,29 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
-                    <fieldset>
-                        <div class="control-group generation-rule">
-                            <label class="control-label">Password length</label>
-                            <div class="controls">
-                                <input name="password-length" type="number" min="8" max="128">
-                            </div>
+                    <div class="control-group generation-rule">
+                        <label class="control-label">Password length</label>
+                        <div class="controls">
+                            <input name="password-length" type="number" min="8" max="128">
                         </div>
-                        <div class="control-group generation-rule">
-                            <label class="control-label">Acceptable characters</label>
-                            <div class="controls">
-                                <label class="checkbox inline"><input name="use-upper-case" type="checkbox">Upper case</label>
-                                <label class="checkbox inline"><input name="use-lower-case" type="checkbox">Lower case</label>
-                                <label class="checkbox inline"><input name="use-digit" type="checkbox">Digit</label>
-                            </div>
-                            <div class="controls">
-                                <label class="checkbox inline"><input name="use-special-characters" type="checkbox">Special characters</label>
-                            </div>
+                    </div>
+                    <div class="control-group generation-rule">
+                        <label class="control-label">Acceptable characters</label>
+                        <div class="controls">
+                            <label class="checkbox inline"><input name="use-upper-case" type="checkbox">Upper case</label>
+                            <label class="checkbox inline"><input name="use-lower-case" type="checkbox">Lower case</label>
+                            <label class="checkbox inline"><input name="use-digit" type="checkbox">Digit</label>
                         </div>
-                        <div class="control-group generation-rule">
-                            <label class="control-label">Special characters</label>
-                            <div class="controls">
-                                <input name="special-characters" type="text" value="!&quot;#$%&'()*+,-./:;<=>?@[\]^_`{|}~" disabled>
-                            </div>
+                        <div class="controls">
+                            <label class="checkbox inline"><input name="use-special-characters" type="checkbox">Special characters</label>
                         </div>
-                    </fieldset>
+                    </div>
+                    <div class="control-group generation-rule">
+                        <label class="control-label">Special characters</label>
+                        <div class="controls">
+                            <input name="special-characters" type="text" value="!&quot;#$%&'()*+,-./:;<=>?@[\]^_`{|}~" disabled>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
