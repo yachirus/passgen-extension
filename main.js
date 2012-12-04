@@ -85,4 +85,52 @@ $(document).ready(function(){
             $('#entities tbody').append(newEntity); 
         });
     });
+    
+    $('#generation-rule-dialog').on('show', function(){
+        var dialog = $(this);
+        dialog.find('input[name="password-length"]').val(passgen.generationRule.passwordLength);
+        
+        if(passgen.generationRule.useUpperCase){
+            dialog.find('input[name="use-upper-case"]').attr({checked: 'checked'});
+        }else{
+            dialog.find('input[name="use-upper-case"]').removeAttr('checked');
+        }
+        
+        if(passgen.generationRule.useLowerCase){
+            dialog.find('input[name="use-lower-case"]').attr({checked: 'checked'});
+        }else{
+            dialog.find('input[name="use-lower-case"]').removeAttr('checked');
+        }
+        
+        if(passgen.generationRule.useDigit){
+            dialog.find('input[name="use-digit"]').attr({checked: 'checked'});
+        }else{
+            dialog.find('input[name="use-digit"]').removeAttr('checked');
+        }
+        
+        if(passgen.generationRule.useSpecialChars){
+            dialog.find('input[name="use-special-characters"]').attr({checked: 'checked'});
+            dialog.find('input[name="special-characters"]').removeAttr('disabled');
+        }else{
+            dialog.find('input[name="use-special-characters"]').removeAttr('checked');
+            dialog.find('input[name="special-characters"]').attr({disabled: 'disabled'});
+        }
+    });
+    $('#generation-rule-dialog input[name="use-special-characters"]').on('change', function(){
+        if($(this).is(':checked')){
+            $('#generation-rule-dialog input[name="special-characters"]').removeAttr('disabled');
+        }else{
+            $('#generation-rule-dialog input[name="special-characters"]').attr({disabled: 'disabled'});
+        }
+    });
+    $('#change-generation-rule').on('click', function(){
+        var dialog = $('#generation-rule-dialog');
+        passgen.generationRule.passwordLength = parseInt(dialog.find('input[name="password-length"]').val());
+        passgen.generationRule.useUpperCase = dialog.find('input[name="use-upper-case"]').is(':checked');
+        passgen.generationRule.useLowerCase = dialog.find('input[name="use-lower-case"]').is(':checked');
+        passgen.generationRule.useDigit = dialog.find('input[name="use-digit"]').is(':checked');
+        passgen.generationRule.useSpecialChars = dialog.find('input[name="use-special-characters"]').is(':checked');
+        passgen.generationRule.specialChars = dialog.find('input[name="special-characters"]').val();
+        $('#generation-rule-dialog').modal('hide');
+    });
 });

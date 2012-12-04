@@ -13,7 +13,7 @@ var passgen = (function(passgen){
         useUpperCase: true,
         useLowerCase: true,
         useDigit: true,
-        useSpecialChar: false,
+        useSpecialChars: false,
         specialChars: '!"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~'
     };
     
@@ -23,6 +23,10 @@ var passgen = (function(passgen){
         window.crypto.getRandomValues(randomArray);
         
         for(var i = 0;i < randomArray.length;i++){
+            if(passgen.generationRule.passwordLength <= result.length){
+                return result;
+            }
+            
             if(passgen.generationRule.useUpperCase){
                 if(0x41 <= randomArray[i] && randomArray[i] <= 0x5A){
                     result += String.fromCharCode(randomArray[i]);
@@ -41,19 +45,20 @@ var passgen = (function(passgen){
                     continue;
                 }
             }
-            if(passgen.generationRule.useSpecialChar){
+            if(passgen.generationRule.useSpecialChars){
                 var value = String.fromCharCode(randomArray[i]);
                 if(passgen.generationRule.specialChars.indexOf(value) != -1){
                     result += value;
                     continue;
                 }
             }
-            
-            if(passgen.generationRule.passwordLength <= result.length){
-                return result;
-            }
         }
-        return generateNewPassword(result);
+        
+        if(passgen.generationRule.passwordLength <= result.length){
+            return result;
+        }else{
+            return generateNewPassword(result);
+        }
     }
     
     passgen.Entity = function(){

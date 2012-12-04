@@ -23,7 +23,7 @@
                         <div class="control-group generation-rule">
                             <label class="control-label">Password length</label>
                             <div class="controls">
-                                <input name="password-length" type="number" min="8" max="128" value="16">
+                                <input name="password-length" type="number" min="8" max="128">
                             </div>
                         </div>
                         <div class="control-group generation-rule">
@@ -34,13 +34,13 @@
                                 <label class="checkbox inline"><input name="use-digit" type="checkbox">Digit</label>
                             </div>
                             <div class="controls">
-                                <label class="checkbox inline"><input type="checkbox">Special characters</label>
+                                <label class="checkbox inline"><input name="use-special-characters" type="checkbox">Special characters</label>
                             </div>
                         </div>
                         <div class="control-group generation-rule">
                             <label class="control-label">Special characters</label>
                             <div class="controls">
-                                <input type="text" value="!&quot;#$%&'()*+,-./:;<=>?@[\]^_`{|}~" disabled>
+                                <input name="special-characters" type="text" value="!&quot;#$%&'()*+,-./:;<=>?@[\]^_`{|}~" disabled>
                             </div>
                         </div>
                     </fieldset>
@@ -48,7 +48,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn" data-dismiss="modal">Cacel</a>
-                <a href="#" class="btn btn-primary">Change generation rule</a>
+                <a href="#" id="change-generation-rule" class="btn btn-primary">Change generation rule</a>
             </div>
         </div>
         <div class="container-fluid">
