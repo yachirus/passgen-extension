@@ -63,8 +63,8 @@ var passgen = (function(passgen){
     
     passgen.Entity = function(){
         this.group = '';
-        this.name = '';
-        this.id = '';
+        this.title = '';
+        this.account = '';
         this.password = '';
     }
     return passgen;

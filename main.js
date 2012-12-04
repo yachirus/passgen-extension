@@ -1,7 +1,7 @@
 function acceptEntity(){
     var entity = new passgen.Entity();
-    entity.name = $('#newentity-name').val();
-    entity.id = $('#newentity-id').val();
+    entity.title = $('#newentity-title').val();
+    entity.account = $('#newentity-account').val();
     entity.password = $('#newentity-password').val();
     entitylist.push(entity);
     
@@ -24,11 +24,11 @@ function updateEntity(){
     for(var i = 0;i < entitylist.length;i++){
         var tr = $(document.createElement('tr'));
         var td = $(document.createElement('td'));
-        td.text(entitylist[i].name);
+        td.text(entitylist[i].title);
         tr.append(td);
         
         td = $(document.createElement('td'));
-        td.text(entitylist[i].id);
+        td.text(entitylist[i].account);
         tr.append(td);
         
         td = $(document.createElement('td'));
@@ -53,11 +53,11 @@ function updateEntity(){
 entitylist = [new passgen.Entity(), new passgen.Entity()];
 $(document).ready(function(){
     // Sampel data
-    entitylist[0].name = 'Amazon';
-    entitylist[0].id = 'id@example.com'
+    entitylist[0].title = 'Amazon';
+    entitylist[0].account = 'id@example.com'
     entitylist[0].password = 'password';
-    entitylist[1].name = 'Google';
-    entitylist[1].id = 'id2@example.com'
+    entitylist[1].title = 'Google';
+    entitylist[1].account = 'id2@example.com'
     entitylist[1].password = 'password';
     
     updateEntity();
