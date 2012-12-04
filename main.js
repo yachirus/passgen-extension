@@ -41,9 +41,35 @@ function updateEntity(){
         
         td = $(document.createElement('td'));
         td.attr({style: 'white-space: nowrap;'});
-        td.append(' <a class="btn" title="show-password"><i class="icon-eye-open"></i></a>');
-        td.append(' <a class="btn" title="copy password to clipboard"><i class="icon-list-alt"></i></a>');
-        td.append(' <a class="btn" title="edit-entity"><i class="icon-pencil"></i></a>');
+        var showPassword = $('<a class="btn" title="show-password"></a>');
+        showPassword.append('<i class="icon-eye-open"></i>');
+        showPassword.attr({'data-index': i});
+        showPassword.on('click', function(){
+            var index = parseInt($(this).attr('data-index'));
+            if($(this).find('i').is('.icon-eye-open')){
+                $('#entities tr:eq(' + (index + 1) + ') td:eq(2)').text(entitylist[index].password);
+                $(this).find('i').removeClass('icon-eye-open').addClass('icon-eye-close');
+            }else{
+                var str = '';
+                for(var j= 0;j < entitylist[index].password.length;j++){
+                    str += '*';
+                }
+                $('#entities tr:eq(' + (index + 1) + ') td:eq(2)').text(str);
+                $(this).find('i').removeClass('icon-eye-close').addClass('icon-eye-open');
+            }
+        });
+        
+        var copyToClipboard = $(' <a class="btn" title="copy password to clipboard"></a>');
+        copyToClipboard.append('<i class="icon-list-alt"></i>');
+        copyToClipboard.attr({'data-index': i});
+        
+        var editEntity = $(' <a class="btn" title="edit-entity"></a>')
+        editEntity.append('<i class="icon-pencil"></i>');
+        editEntity.attr({'data-index': i});
+        
+        td.append(showPassword).append(' ')
+        .append(copyToClipboard).append(' ')
+        .append(editEntity);
         tr.append(td);
         
         $('#entities tbody').append(tr);
@@ -75,8 +101,10 @@ $(document).ready(function(){
                 var password = $('#newentity-password').val();
                 if($('#newentity-password').attr('type') == 'text'){
                     $('#newentity-password').replaceWith('<input id="newentity-password" class="span8" type="password">');
+                    $('#newentity-show-password i').removeClass('icon-eye-close').addClass('icon-eye-open');
                 }else{
                     $('#newentity-password').replaceWith('<input id="newentity-password" class="span8" type="text">');
+                    $('#newentity-show-password i').removeClass('icon-eye-open').addClass('icon-eye-close');
                 }
                 $('#newentity-password').val(password);
             });
