@@ -6,9 +6,11 @@ function dump(password){
 }
 
 function load(password){
-    var json = sjcl.decrypt(password, localStorage.passgen);
-    entitylist = JSON.parse(json).entityList;
-    passgen.generationRule = JSON.parse(json).generationRule;
+    if(localStorage.passgen){
+        var json = sjcl.decrypt(password, localStorage.passgen);
+        entitylist = JSON.parse(json).entityList;
+        passgen.generationRule = JSON.parse(json).generationRule;
+    }
 }
 
 var passgen = (function(passgen){

@@ -78,10 +78,18 @@ function updateEntity(){
         var editEntity = $('<a class="btn" title="edit-entity"></a>')
         editEntity.append('<i class="icon-pencil"></i>');
         editEntity.attr({'data-index': i});
+        editEntity.on('click',function(){
+            
+        });
         
         var removeEntity = $('<a class="btn" title="remove-entity"></a>')
         removeEntity.append('<i class="icon-trash"></i>');
         removeEntity.attr({'data-index': i});
+        removeEntity.on('click', function(){
+            var index = parseInt($(this).attr('data-index'));
+            entitylist.splice(index, 1);
+            updateEntity();
+        });
         
         td.append(showPassword).append(' ')
         .append(copyToClipboard).append(' ')
