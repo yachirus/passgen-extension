@@ -94,34 +94,26 @@ function updateEntity(){
 
 masterPassword = undefined;
 entitylist = [];
-$(document).ready(function(){    
-    var modal = $('#master-password-dialog').on('submit', function(){
+$(document).ready(function(){
+    var validateMasterPassword = function(){
         try{
-            var password = $(this).find('input[name="master-password"]').val();
+            var password = $('#master-password-dialog input[name="master-password"]').val();
             load(password);
             masterPassword = password;
-            $(this).modal('hide');
+            $('#master-password-dialog').modal('hide');
         }catch(e){
             alert('invalid password');
         }
         
         updateEntity();
         return false;
-    });
-    $('#submit-master-password').on('click', function(){
-        try{
-            var password = $(this).find('input[name="master-password"]').val();
-            load(password);
-            masterPassword = password;
-            $(this).modal('hide');
-        }catch(e){
-            alert('invalid password');
-        }
-        
-        updateEntity();
-        return false;
-    });
-    modal.modal('show');
+    }
+    $('#submit-master-password').on('click', validateMasterPassword);
+    $('#master-password-dialog')
+    .on('submit', validateMasterPassword)
+    .on('shown', function(){
+        $(this).find('input[name="master-password"]').focus();
+    }).modal('show');
     
     $('#add-entity').on('click', function(){
         $('#add-entity').hide();
