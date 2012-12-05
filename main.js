@@ -5,6 +5,8 @@ function acceptEntity(){
     entity.password = $('#newentity-password').val();
     entitylist.push(entity);
     
+    dump('hoge');
+    
     $('#newentity').remove();
     $('#add-entity').show();
     updateEntity();
@@ -84,20 +86,24 @@ function updateEntity(){
     }
 }
 
-entitylist = [new passgen.Entity(), new passgen.Entity()];
-$(document).ready(function(){
-    // Sampel data
-    entitylist[0].title = 'Amazon';
-    entitylist[0].account = 'id@example.com'
-    entitylist[0].password = 'password';
-    entitylist[1].title = 'Google';
-    entitylist[1].account = 'id2@example.com'
-    entitylist[1].password = 'password';
-    
-    var modal = $('#master-password-dialog').on('submit', function(){return false;});
+masterPassword = undefined;
+entitylist = [];
+$(document).ready(function(){    
+    var modal = $('#master-password-dialog')
+    .on('submit', function(){
+        try{
+            var password = $(this).find('input[name="master-password"]').val();
+            load(password);
+            masterPassword = password;
+            $(this).modal('hide');
+        }catch(e){
+            alert('invalid password');
+        }
+        
+        updateEntity();
+        return false;
+    });
     modal.modal('show');
-    
-    updateEntity();
     
     $('#add-entity').on('click', function(){
         $('#add-entity').hide();

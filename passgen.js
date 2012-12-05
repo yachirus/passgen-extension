@@ -1,10 +1,14 @@
 function dump(password){
-    var json = JSON.stringify(entitylist);
+    var dumpData = {};
+    dumpData.generationRule = passgen.generationRule;
+        dumpData.entityList = entitylist;
+        localStorage.passgen = sjcl.encrypt(password, JSON.stringify(dumpData));
 }
 
 function load(password){
-    var json = '';
-    entitylist = JSON.parse(json);
+    var json = sjcl.decrypt(password, localStorage.passgen);
+    entitylist = JSON.parse(json).entityList;
+    passgen.generationRule = JSON.parse(json).generationRule;
 }
 
 var passgen = (function(passgen){
