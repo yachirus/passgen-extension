@@ -5,7 +5,9 @@ function acceptEntity(){
     entity.password = $('#newentity-password').val();
     entitylist.push(entity);
     
-    dump('hoge');
+    if(masterPassword){
+        dump(masterPassword);
+    }
     
     $('#newentity').remove();
     $('#add-entity').show();
@@ -57,7 +59,7 @@ function updateEntity(){
             }
         });
         
-        var copyToClipboard = $(' <a class="btn" title="copy password to clipboard"></a>');
+        var copyToClipboard = $('<a class="btn" title="copy password to clipboard"></a>');
         copyToClipboard.append('<i class="icon-list-alt"></i>');
         copyToClipboard.attr({'data-index': i});
         copyToClipboard.on('click', function(){
@@ -73,13 +75,17 @@ function updateEntity(){
             document.body.removeChild(copyDiv);
         });
         
-        var editEntity = $(' <a class="btn" title="edit-entity"></a>')
+        var editEntity = $('<a class="btn" title="edit-entity"></a>')
         editEntity.append('<i class="icon-pencil"></i>');
         editEntity.attr({'data-index': i});
         
+        var removeEntity = $('<a class="btn" title="remove-entity"></a>')
+        removeEntity.append('<i class="icon-trash"></i>');
+        removeEntity.attr({'data-index': i});
+        
         td.append(showPassword).append(' ')
         .append(copyToClipboard).append(' ')
-        .append(editEntity);
+        .append(editEntity).append(' ').append(removeEntity);
         tr.append(td);
         
         $('#entities tbody').append(tr);
@@ -89,8 +95,20 @@ function updateEntity(){
 masterPassword = undefined;
 entitylist = [];
 $(document).ready(function(){    
-    var modal = $('#master-password-dialog')
-    .on('submit', function(){
+    var modal = $('#master-password-dialog').on('submit', function(){
+        try{
+            var password = $(this).find('input[name="master-password"]').val();
+            load(password);
+            masterPassword = password;
+            $(this).modal('hide');
+        }catch(e){
+            alert('invalid password');
+        }
+        
+        updateEntity();
+        return false;
+    });
+    $('#submit-master-password').on('click', function(){
         try{
             var password = $(this).find('input[name="master-password"]').val();
             load(password);
