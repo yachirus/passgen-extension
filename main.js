@@ -79,7 +79,51 @@ function updateEntity(){
         editEntity.append('<i class="icon-pencil"></i>');
         editEntity.attr({'data-index': i});
         editEntity.on('click',function(){
+            var index = parseInt($(this).attr('data-index'));
+            var entity = $('#entities tbody tr:eq(' + index + ')');
+            entity.children().remove();
             
+            $('#add-entity').hide();
+            
+            entity.attr({id: 'newentity'});
+            entity.load('addentityform.html', function(){
+                entity.find('#newentity-title').val(entitylist[index].title);
+                entity.find('#newentity-account').val(entitylist[index].account);
+                entity.find('#newentity-password').val(entitylist[index].password);
+                entity.find('#newentity-regenerate').on('click', function(){
+                    $('#newentity-password').val(passgen.generateNewPassword());
+                });
+                entity.find('#newentity-show-password').on('click', function(){
+                    var password = $('#newentity-password').val();
+                    if($('#newentity-password').attr('type') == 'text'){
+                        $('#newentity-password').replaceWith('<input id="newentity-password" class="span8" type="password">');
+                        $('#newentity-show-password i').removeClass('icon-eye-close').addClass('icon-eye-open');
+                    }else{
+                        $('#newentity-password').replaceWith('<input id="newentity-password" class="span8" type="text">');
+                        $('#newentity-show-password i').removeClass('icon-eye-open').addClass('icon-eye-close');
+                    }
+                    $('#newentity-password').val(password);
+                });
+                entity.find('#newentity-accept').on('click', function(){
+                    entitylist[index].title = $('#newentity-title').val();
+                    entitylist[index].account = $('#newentity-account').val();
+                    entitylist[index].password = $('#newentity-password').val();
+                    
+                    if(masterPassword){
+                        dump(masterPassword);
+                    }
+                    
+                    $('#newentity').remove();
+                    $('#add-entity').show();
+                    updateEntity();
+                });
+                entity.find('#newentity-cancel').on('click', function(){
+                    $('#newentity').remove();
+                    $('#add-entity').show();
+                    updateEntity();
+                });
+                $('#entities tbody').append(entity); 
+            });
         });
         
         var removeEntity = $('<a class="btn" title="remove-entity"></a>')
@@ -88,6 +132,9 @@ function updateEntity(){
         removeEntity.on('click', function(){
             var index = parseInt($(this).attr('data-index'));
             entitylist.splice(index, 1);
+            if(masterPassword){
+                dump(masterPassword);
+            }
             updateEntity();
         });
         
