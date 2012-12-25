@@ -23,6 +23,28 @@ var passgen = (function(passgen){
         specialChars: '!"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~'
     };
     
+    passgen.isConnected = false;
+    passgen.entitylist = [];
+    passgen.dump = function(name, password){
+        if(passgen.isConnected){
+            var dumpData = {
+                entitylists: { name: passgen.entitylist },
+                generationRule: passgen.generationRule };
+            localStorage.passgen = sjcl.encrypt(password, JSON.stringify(dumpData));
+        }
+    };
+    
+    passgen.load = function(name, password){
+        if(localStorage.passgen){
+            var json = sjcl.decrypt(password, localStorage.passgen);
+            passgen.entitylist = JSON.parse(json).entityLists[name];
+            passgen.generationRule = JSON.parse(json).generationRule;
+            passgen.isConnected = true;
+        }else{
+            passgen.isConnected = true;
+        }
+    }
+    
     passgen.generateNewPassword = function(base){
         var result = base ? base : '';
         var randomArray = new Uint8Array(1024);

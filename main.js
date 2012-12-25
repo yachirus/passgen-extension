@@ -122,7 +122,6 @@ function updateEntity(){
                     $('#add-entity').show();
                     updateEntity();
                 });
-                $('#entities tbody').append(entity); 
             });
         });
         
