@@ -3,12 +3,10 @@ function acceptEntity(){
     entity.title = $('#newentity-title').val();
     entity.account = $('#newentity-account').val();
     entity.password = $('#newentity-password').val();
-    entitylist.push(entity);
+    passgen.entitylist.push(entity);
     
-    if(masterPassword){
-        dump(masterPassword);
-    }
-    
+    passgen.save("default", masterPassword);
+
     $('#newentity').remove();
     $('#add-entity').show();
     updateEntity();
@@ -21,19 +19,19 @@ function cancelEntity(){
 
 function updateEntity(){
     $('#entities tbody *').remove();
-    for(var i = 0;i < entitylist.length;i++){
+    for(var i = 0;i < passgen.entitylist.length;i++){
         var tr = $(document.createElement('tr'));
         var td = $(document.createElement('td'));
-        td.text(entitylist[i].title);
+        td.text(passgen.entitylist[i].title);
         tr.append(td);
         
         td = $(document.createElement('td'));
-        td.text(entitylist[i].account);
+        td.text(passgen.entitylist[i].account);
         tr.append(td);
         
         td = $(document.createElement('td'));
         var str = '';
-        for(var j= 0;j < entitylist[i].password.length;j++){
+        for(var j= 0;j < passgen.entitylist[i].password.length;j++){
             str += '*';
         }
         td.text(str);
@@ -47,11 +45,11 @@ function updateEntity(){
         showPassword.on('click', function(){
             var index = parseInt($(this).attr('data-index'));
             if($(this).find('i').is('.icon-eye-open')){
-                $('#entities tr:eq(' + (index + 1) + ') td:eq(2)').text(entitylist[index].password);
+                $('#entities tr:eq(' + (index + 1) + ') td:eq(2)').text(passgen.entitylist[index].password);
                 $(this).find('i').removeClass('icon-eye-open').addClass('icon-eye-close');
             }else{
                 var str = '';
-                for(var j= 0;j < entitylist[index].password.length;j++){
+                for(var j= 0;j < passgen.entitylist[index].password.length;j++){
                     str += '*';
                 }
                 $('#entities tr:eq(' + (index + 1) + ') td:eq(2)').text(str);
@@ -67,7 +65,7 @@ function updateEntity(){
             var copyDiv = document.createElement('div');
             copyDiv.contentEditable = true;
             document.body.appendChild(copyDiv);
-            copyDiv.innerHTML = entitylist[index].password;
+            copyDiv.innerHTML = passgen.entitylist[index].password;
             copyDiv.unselectable = "off";
             copyDiv.focus();
             document.execCommand('SelectAll');
@@ -87,9 +85,9 @@ function updateEntity(){
             
             entity.attr({id: 'newentity'});
             entity.load('addentityform.html', function(){
-                entity.find('#newentity-title').val(entitylist[index].title);
-                entity.find('#newentity-account').val(entitylist[index].account);
-                entity.find('#newentity-password').val(entitylist[index].password);
+                entity.find('#newentity-title').val(passgen.entitylist[index].title);
+                entity.find('#newentity-account').val(passgen.entitylist[index].account);
+                entity.find('#newentity-password').val(passgen.entitylist[index].password);
                 entity.find('#newentity-regenerate').on('click', function(){
                     $('#newentity-password').val(passgen.generateNewPassword());
                 });
@@ -105,13 +103,11 @@ function updateEntity(){
                     $('#newentity-password').val(password);
                 });
                 entity.find('#newentity-accept').on('click', function(){
-                    entitylist[index].title = $('#newentity-title').val();
-                    entitylist[index].account = $('#newentity-account').val();
-                    entitylist[index].password = $('#newentity-password').val();
+                    passgen.entitylist[index].title = $('#newentity-title').val();
+                    passgen.entitylist[index].account = $('#newentity-account').val();
+                    passgen.entitylist[index].password = $('#newentity-password').val();
                     
-                    if(masterPassword){
-                        dump(masterPassword);
-                    }
+                    passgen.save("default", masterPassword);
                     
                     $('#newentity').remove();
                     $('#add-entity').show();
@@ -130,10 +126,8 @@ function updateEntity(){
         removeEntity.attr({'data-index': i});
         removeEntity.on('click', function(){
             var index = parseInt($(this).attr('data-index'));
-            entitylist.splice(index, 1);
-            if(masterPassword){
-                dump(masterPassword);
-            }
+            passgen.entitylist.splice(index, 1);
+            passgen.save("default", masterPassword);
             updateEntity();
         });
         
@@ -147,12 +141,11 @@ function updateEntity(){
 }
 
 masterPassword = undefined;
-entitylist = [];
 $(document).ready(function(){
     var validateMasterPassword = function(){
         try{
             var password = $('#master-password-dialog input[name="master-password"]').val();
-            load(password);
+            passgen.load('default', password);
             masterPassword = password;
             $('#master-password-dialog').modal('hide');
         }catch(e){
@@ -241,5 +234,12 @@ $(document).ready(function(){
         passgen.generationRule.useSpecialChars = dialog.find('input[name="use-special-characters"]').is(':checked');
         passgen.generationRule.specialChars = dialog.find('input[name="special-characters"]').val();
         $('#generation-rule-dialog').modal('hide');
+    });
+    
+    $('#dump').on('click',function(){
+        var bb = new WebKitBlobBuilder();
+        bb.append(passgen.dump());
+        var blob_url = window.webkitURL.createObjectURL(bb.getBlob());
+        $("#dump").attr({"href": blob_url, "download": "dumpdata.psg"});
     });
 });

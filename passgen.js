@@ -1,18 +1,3 @@
-function dump(password){
-    var dumpData = {};
-    dumpData.generationRule = passgen.generationRule;
-        dumpData.entityList = entitylist;
-        localStorage.passgen = sjcl.encrypt(password, JSON.stringify(dumpData));
-}
-
-function load(password){
-    if(localStorage.passgen){
-        var json = sjcl.decrypt(password, localStorage.passgen);
-        entitylist = JSON.parse(json).entityList;
-        passgen.generationRule = JSON.parse(json).generationRule;
-    }
-}
-
 var passgen = (function(passgen){
     passgen.generationRule = {
         passwordLength: 16,
@@ -23,26 +8,32 @@ var passgen = (function(passgen){
         specialChars: '!"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~'
     };
     
-    passgen.isConnected = false;
     passgen.entitylist = [];
-    passgen.dump = function(name, password){
-        if(passgen.isConnected){
-            var dumpData = {
-                entitylists: { name: passgen.entitylist },
-                generationRule: passgen.generationRule };
-            localStorage.passgen = sjcl.encrypt(password, JSON.stringify(dumpData));
-        }
+    passgen.save = function(name, password){
+        var dumpData = {
+            entitylist: passgen.entitylist,
+            generationRule: passgen.generationRule
+        };
+        
+        localStorage.setItem('database.' + name, sjcl.encrypt(password, JSON.stringify(dumpData)));
     };
     
     passgen.load = function(name, password){
-        if(localStorage.passgen){
-            var json = sjcl.decrypt(password, localStorage.passgen);
-            passgen.entitylist = JSON.parse(json).entityLists[name];
+        if(localStorage.getItem('database.' + name)){
+            var json = sjcl.decrypt(password, localStorage.getItem('database.' + name));
+            passgen.entitylist = JSON.parse(json).entitylist;
             passgen.generationRule = JSON.parse(json).generationRule;
-            passgen.isConnected = true;
-        }else{
-            passgen.isConnected = true;
         }
+    }
+    
+    passgen.dump = function(){
+        var dumpList = [];
+        for(var i = 0;i < localStorage.length;i++){
+            var key = localStorage.key(i);
+            var dumpData = { name: key, data: localStorage.getItem(key) };
+            dumpList.push(dumpData);
+        }
+        return JSON.stringify(dumpList);
     }
     
     passgen.generateNewPassword = function(base){
@@ -94,6 +85,7 @@ var passgen = (function(passgen){
         this.title = '';
         this.account = '';
         this.password = '';
+        this.note = '';
     }
     return passgen;
 })({})
