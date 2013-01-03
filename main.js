@@ -145,6 +145,8 @@ $(document).ready(function(){
     var validateMasterPassword = function(){
         try{
             var password = $('#master-password-dialog input[name="master-password"]').val();
+            password = sjcl.hash.sha256.hash(password);
+            password = sjcl.codec.base64.fromBits(password);
             passgen.load('default', password);
             masterPassword = password;
             $('#master-password-dialog').modal('hide');
