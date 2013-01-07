@@ -15,11 +15,16 @@
         <div id="master-password-dialog" class="modal hide fade">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Master password</h3>
+                <h3>Database select</h3>
             </div>
             <div class="modal-body">
-                <form>
-                    <label class="control-label">Input master passsword</label>
+                <form name="database-select">
+                    <label class="radio"><input name="load-or-create" type="radio" value="load" checked>Load database</label>
+                    <label class="radio"><input name="load-or-create" type="radio" value="create">Create new database</label>
+                    <label>Database name</label>
+                    <select name="database-name-load"></select>
+                    <input name="database-name-create" type="text" style="display: none">
+                    <label>Master passsword</label>
                     <input name="master-password" type="password">
                 </form>
             </div>

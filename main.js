@@ -5,7 +5,7 @@ function acceptEntity(){
     entity.password = $('#newentity-password').val();
     passgen.entitylist.push(entity);
     
-    passgen.save("default", masterPassword);
+    passgen.save(currentDatabaseName, currentPassword);
 
     $('#newentity').remove();
     $('#add-entity').show();
@@ -107,7 +107,7 @@ function updateEntity(){
                     passgen.entitylist[index].account = $('#newentity-account').val();
                     passgen.entitylist[index].password = $('#newentity-password').val();
                     
-                    passgen.save("default", masterPassword);
+                    passgen.save(currentDatabaseName, currentPassword);
                     
                     $('#newentity').remove();
                     $('#add-entity').show();
@@ -127,7 +127,7 @@ function updateEntity(){
         removeEntity.on('click', function(){
             var index = parseInt($(this).attr('data-index'));
             passgen.entitylist.splice(index, 1);
-            passgen.save("default", masterPassword);
+            passgen.save(currentDatabaseName, currentPassword);
             updateEntity();
         });
         
@@ -140,15 +140,20 @@ function updateEntity(){
     }
 }
 
-masterPassword = undefined;
+currentPassword = undefined;
+currentDatabaseName = undefined;
 $(document).ready(function(){
     var validateMasterPassword = function(){
         try{
+            var loadOrCreate = $('#master-password-dialog input[name="load-or-create"]:checked').val();
+            var databaseName = $('#master-password-dialog :input[name="database-name-' + loadOrCreate + '"]').val();
             var password = $('#master-password-dialog input[name="master-password"]').val();
             password = sjcl.hash.sha256.hash(password);
             password = sjcl.codec.base64.fromBits(password);
-            passgen.load('default', password);
-            masterPassword = password;
+            passgen.load(databaseName, password);
+            
+            currentPassword = password;
+            currentDatabaseName = databaseName;
             $('#master-password-dialog').modal('hide');
         }catch(e){
             alert('invalid password');
@@ -157,9 +162,32 @@ $(document).ready(function(){
         updateEntity();
         return false;
     }
+    
+    $('#master-password-dialog input[name="load-or-create"]')
+    .on('click', function(e){
+        if($(e.target).val() == 'load'){
+            $('#master-password-dialog :input[name="database-name-create"]').hide();
+            $('#master-password-dialog :input[name="database-name-load"]').show();
+        }else{
+            $('#master-password-dialog :input[name="database-name-load"]').hide();
+            $('#master-password-dialog :input[name="database-name-create"]').show();
+        }
+    });
     $('#submit-master-password').on('click', validateMasterPassword);
-    $('#master-password-dialog')
-    .on('submit', validateMasterPassword)
+    $('#master-password-dialog input').on('keypress', function(e){
+        if(e.keyCode == 13){ validateMasterPassword(); }
+    });
+    $('#master-password-dialog').on('show', function(){
+        for(var i = 0;i < localStorage.length;i++){
+            var key = localStorage.key(i);
+            if(key.lastIndexOf('database.') == 0){
+                key = key.replace('database.', '');
+                var op = $(document.createElement('option'));
+                op.text(key).val(key);
+                $('form[name="database-select"] select').append(op);
+            }
+        }
+    })
     .on('shown', function(){
         $(this).find('input[name="master-password"]').focus();
     }).modal('show');
